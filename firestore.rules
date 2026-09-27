@@ -1,0 +1,107 @@
+rules_version = '2';
+
+/**
+ * ===============================================================
+ * TIT ACADEMIC ATTENDANCE MANAGEMENT SYSTEM (AMS)
+ * Cloud Firestore Security Rules
+ * ===============================================================
+ *
+ * Assumed Data Models:
+ *
+ * Collection: users
+ * Document ID: userId (matches request.auth.uid)
+ * Fields:
+ *   - id: string
+ *   - uid: string
+ *   - name: string
+ *   - email: string
+ *   - role: string ("principal" | "teacher" | "student")
+ *   - status: string ("approved" | "pending")
+ *   - registeredAt: string (date)
+ *   - avatar: string
+ *   - teacherId: optional string
+ *   - rollNo: optional string
+ *   - semester: optional string
+ *   - department: optional string
+ *
+ * Collection: subjects
+ * Document ID: subId
+ * Fields: id, code, name, department, semester, facultyId, etc.
+ *
+ * Collection: attendance
+ * Document ID: recId
+ * Fields: id, subjectId, date, records, markedBy, timestamp
+ *
+ * Collection: joinRequests
+ * Document ID: reqId
+ * Fields: id, studentId, studentName, subjectId, status, requestDate
+ *
+ * Collection: holidays
+ * Document ID: holId
+ * Fields: id, title, date, type, description
+ *
+ * Collection: resources
+ * Document ID: resId
+ * Fields: id, title, type, url, subjectId, uploader
+ * ===============================================================
+ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Default deny for unauthenticated or unspecified routes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      // Authenticated users can view user profiles
+      allow read: if isAuthenticated();
+      
+      // Users can create their own profile during registration
+      allow create: if isAuthenticated() && (request.auth.uid == userId || request.resource.data.uid == request.auth.uid);
+      
+      // Profile updates (e.g. principal approving faculty, user profile edits)
+      allow update: if isAuthenticated();
+      
+      // Admin/Principal deletion
+      allow delete: if isAuthenticated();
+    }
+
+    // 2. Subjects Collection
+    match /subjects/{subjectId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // 3. Attendance Records Collection
+    match /attendance/{attendanceId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // 4. Student Course Join Requests Collection
+    match /joinRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // 5. Academic Holidays Collection
+    match /holidays/{holidayId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // 6. Study Resources Collection
+    match /resources/{resourceId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+  }
+}

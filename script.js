@@ -531,9 +531,13 @@ async function handleLoginSubmit(event) {
       // Fetch profile from Firestore
       let userProfile = null;
       if (firestoreDbInstance) {
-        const doc = await firestoreDbInstance.collection('users').doc(uid).get();
-        if (doc.exists) {
-          userProfile = doc.data();
+        try {
+          const doc = await firestoreDbInstance.collection('users').doc(uid).get();
+          if (doc.exists) {
+            userProfile = doc.data();
+          }
+        } catch (dbErr) {
+          console.warn('Firestore profile fetch notice (Check Security Rules):', dbErr.message);
         }
       }
 
@@ -735,12 +739,29 @@ async function handleRegisterSubmit(event) {
       }
 
       // Store in Cloud Firestore
+      let firestoreProfileSaved = false;
       if (firestoreDbInstance) {
-        await firestoreDbInstance.collection('users').doc(fbUid).set(newProfile);
+        try {
+          await firestoreDbInstance.collection('users').doc(fbUid).set(newProfile);
+          firestoreProfileSaved = true;
+        } catch (dbErr) {
+          console.warn('Firestore user profile save notice:', dbErr.message);
+          showToast(
+            'Firestore Rules Need Update',
+            'Account created in Auth! However, Cloud Firestore write was denied. Please paste the security rules in Firebase Console.',
+            'warning',
+            7000
+          );
+        }
       }
 
       // Store locally
-      users.push(newProfile);
+      const existingUserIdx = users.findIndex(u => u.email.toLowerCase() === email || u.id === fbUid);
+      if (existingUserIdx >= 0) {
+        users[existingUserIdx] = newProfile;
+      } else {
+        users.push(newProfile);
+      }
       AMS.saveUsers(users);
 
       if (currentRegisterType === 'teacher') {
