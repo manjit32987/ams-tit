@@ -276,6 +276,365 @@
             <button type="button" class="link-btn" onclick="switchAuthMode('login')">Sign in here</button>
           </div>
         </div>
+
+        <!-- Quick link to Syllabi -->
+        <div style="text-align: center; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border-subtle);">
+          <a href="#authSyllabusCard" onclick="openSyllabusSection(event)" style="font-size: 0.82rem; color: var(--primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-book-open"></i> Browse Official Course Syllabi (Diploma • Degree • M.Tech)
+          </a>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- OFFICIAL TIT ACADEMIC SYLLABI & CURRICULUM DIRECTORY     -->
+      <!-- ======================================================== -->
+      <div class="auth-syllabus-card" id="authSyllabusCard">
+        <div class="auth-syllabus-header" onclick="toggleAuthSyllabus()">
+          <div class="syllabus-header-info">
+            <div class="syllabus-icon-badge">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <div>
+              <h2 class="syllabus-title">Academic Syllabi & Curriculum</h2>
+              <p class="syllabus-subtitle">Official TIT course structures & syllabus PDFs</p>
+            </div>
+          </div>
+          <button type="button" class="syllabus-collapse-btn" id="syllabusCollapseBtn" aria-label="Toggle Syllabus Directory">
+            <i class="fa-solid fa-chevron-down" id="syllabusChevron"></i>
+          </button>
+        </div>
+
+        <div class="auth-syllabus-body" id="authSyllabusBody">
+          <!-- Program Category Tabs -->
+          <div class="syllabus-tabs" role="tablist">
+            <button type="button" class="syllabus-tab-btn active" id="tabSyllabusDiploma" onclick="switchSyllabusTab('diploma')">
+              <i class="fa-solid fa-award"></i>
+              <span>Diploma</span>
+              <span class="tab-count-badge">9</span>
+            </button>
+            <button type="button" class="syllabus-tab-btn" id="tabSyllabusDegree" onclick="switchSyllabusTab('degree')">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Degree (B.Tech)</span>
+              <span class="tab-count-badge">6</span>
+            </button>
+            <button type="button" class="syllabus-tab-btn" id="tabSyllabusMtech" onclick="switchSyllabusTab('mtech')">
+              <i class="fa-solid fa-microscope"></i>
+              <span>M.Tech</span>
+              <span class="tab-count-badge">4</span>
+            </button>
+          </div>
+
+          <!-- Quick Search Filter -->
+          <div class="syllabus-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="syllabusSearchInput" placeholder="Filter branches or subjects..." oninput="filterSyllabusItems()">
+          </div>
+
+          <!-- 1. DIPLOMA SYLLABUS LIST (9 SUBJECTS) -->
+          <div class="syllabus-pane active" id="paneSyllabusDiploma">
+            <div class="syllabus-list">
+              <div class="syllabus-item" data-keywords="architectural assistantship daa 2020 diploma architecture">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Architectural Assistantship</strong>
+                    <span class="syllabus-code-badge">DAA-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Architechtural-Assistantship_DAA-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="automobile engineering dae 2020 diploma auto">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-car-side"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Automobile Engineering</strong>
+                    <span class="syllabus-code-badge">DAE-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Automobile-Engineering_DAE-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="civil engineering dce 2020 diploma civil construction">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Civil Engineering</strong>
+                    <span class="syllabus-code-badge">DCE-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Civil-Engineering_DCE-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="computer science technology dcst 2020 diploma cst cse software it">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Computer Science & Technology</strong>
+                    <span class="syllabus-code-badge">DCST-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Computer-Science-Technology_DCST-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="electrical engineering dee 2020 diploma ee electrical power">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Electrical Engineering</strong>
+                    <span class="syllabus-code-badge">DEE-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Elcetrical-Engineering_DEE-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="electronics telecommunication engineering detce 2020 diploma etce ece">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-microchip"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Electronics & Telecommunication Engg.</strong>
+                    <span class="syllabus-code-badge">DETCE-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Electronics-Telecommunication-Engineering_DETCE-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="food processing technology dfpt 2020 diploma fpt food technology">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-bowl-rice"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Food Processing Technology</strong>
+                    <span class="syllabus-code-badge">DFPT-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Food-Processing-Technology_DFPT-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="mechanical engineering dme 2020 diploma me mechanical production">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-gears"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Mechanical Engineering</strong>
+                    <span class="syllabus-code-badge">DME-2020</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Mechanical-Engineering_DME-2020.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="annexure i ii syllabus general diploma first year common">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-file-lines"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Annexure I & II Syllabus</strong>
+                    <span class="syllabus-code-badge">General Annexure</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Annexure-I-II-Syllabus.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. DEGREE (B.TECH) SYLLABUS LIST (6 DISCIPLINES) -->
+          <div class="syllabus-pane" id="paneSyllabusDegree" style="display: none;">
+            <div class="syllabus-list">
+              <div class="syllabus-item" data-keywords="civil engineering degree btech b.tech civil construction">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-building-user"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Civil Engineering</strong>
+                    <span class="syllabus-code-badge">B.Tech CE</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="computer science engineering degree btech b.tech cse software coding">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-code"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Computer Science & Engineering</strong>
+                    <span class="syllabus-code-badge">B.Tech CSE</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="electrical engineering degree btech b.tech ee electrical circuits">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Electrical Engineering</strong>
+                    <span class="syllabus-code-badge">B.Tech EE</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="electronics communication engineering degree btech b.tech ece telecom">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Electronics & Communication Engineering</strong>
+                    <span class="syllabus-code-badge">B.Tech ECE</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="mechanical engineering degree btech b.tech me mechanics thermodynamics">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-wrench"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Mechanical Engineering</strong>
+                    <span class="syllabus-code-badge">B.Tech ME</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="rules regulations open elective btech degree academic regulations electives">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>Rules & Regulations, Open Elective</strong>
+                    <span class="syllabus-code-badge">Academic Structure</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/" target="_blank" rel="noopener noreferrer" class="btn-syllabus-link" title="Open Official TIT Academic Portal">
+                  <i class="fa-solid fa-globe"></i>
+                  <span>Portal</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. M.TECH SYLLABUS LIST (4 PROGRAMS) -->
+          <div class="syllabus-pane" id="paneSyllabusMtech" style="display: none;">
+            <div class="syllabus-list">
+              <div class="syllabus-item" data-keywords="mtech m.tech data science ai ml machine learning analytics pg">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-brain"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>M. Tech in Data Science</strong>
+                    <span class="syllabus-code-badge">M.Tech DS</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Syllabus_M.-Tech-in-Data-Science_Final.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="mtech m.tech thermal engineering heat power thermal fluids pg">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>M. Tech in Thermal Engineering</strong>
+                    <span class="syllabus-code-badge">M.Tech TE</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Syllabus_M.-Tech-in-Thermal-Engineering_Final.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="mtech m.tech vlsi embedded systems semiconductor hardware chip design pg">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-microchip"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>M. Tech in VLSI & Embedded Systems</strong>
+                    <span class="syllabus-code-badge">M.Tech VLSI</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Syllabus_M.-Tech-in-VLSI-and-Embedded-Systems_Final.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="syllabus-item" data-keywords="mtech m.tech power energy system electrical grid renewable pes pg">
+                <div class="syllabus-item-main">
+                  <div class="syllabus-item-icon"><i class="fa-solid fa-solar-panel"></i></div>
+                  <div class="syllabus-item-meta">
+                    <strong>M. Tech in Power & Energy System</strong>
+                    <span class="syllabus-code-badge">M.Tech PES</span>
+                  </div>
+                </div>
+                <a href="https://titagartala.ac.in/wp-content/uploads/2023/06/Syllabus_M.-Tech-in-Power-and-Energy-system.pdf" target="_blank" rel="noopener noreferrer" class="btn-syllabus-pdf" title="Download Official Syllabus PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>PDF</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="syllabus-footer-note">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Verified syllabus files hosted by <strong>Tripura Institute of Technology</strong> (titagartala.ac.in)</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
