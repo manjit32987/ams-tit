@@ -226,9 +226,9 @@
                   <div class="input-with-icon">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <select id="regStudentProgram" onchange="onStudentProgramChange()">
-                      <option value="Degree" selected>Degree (B.Tech - 4 Years)</option>
-                      <option value="Diploma">Diploma (Polytechnic - 3 Years)</option>
-                      <option value="M.Tech">M.Tech (Postgraduate - 2 Years)</option>
+                      <option value="Diploma">Diploma (Polytechnic)</option>
+                      <option value="B.Tech" selected>B.Tech (Degree)</option>
+                      <option value="M.Tech">M.Tech (Postgraduate)</option>
                     </select>
                   </div>
                 </div>
@@ -1014,46 +1014,27 @@
               <input type="text" id="newSubjectCode" placeholder="e.g. CS-501" required>
             </div>
             <div class="form-group">
-              <label for="newSubjectSemester">Semester *</label>
-              <select id="newSubjectSemester" required>
-                <option value="Semester 1">Semester 1</option>
-                <option value="Semester 2">Semester 2</option>
-                <option value="Semester 3">Semester 3</option>
-                <option value="Semester 4">Semester 4</option>
-                <option value="Semester 5" selected>Semester 5</option>
-                <option value="Semester 6">Semester 6</option>
-                <option value="Semester 7">Semester 7</option>
-                <option value="Semester 8">Semester 8</option>
+              <label for="newSubjectProgram">Program Level *</label>
+              <select id="newSubjectProgram" onchange="onSubjectProgramChange()" required>
+                <option value="Diploma">Diploma</option>
+                <option value="B.Tech" selected>B.Tech</option>
+                <option value="M.Tech">M.Tech</option>
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label for="newSubjectDept">Department *</label>
-            <select id="newSubjectDept" required>
-              <optgroup label="Diploma Programs">
-                <option value="Architectural Assistantship (Diploma)">Architectural Assistantship (Diploma)</option>
-                <option value="Automobile Engineering (Diploma)">Automobile Engineering (Diploma)</option>
-                <option value="Civil Engineering (Diploma)">Civil Engineering (Diploma)</option>
-                <option value="Computer Science & Technology (Diploma)">Computer Science & Technology (Diploma)</option>
-                <option value="Electrical Engineering (Diploma)">Electrical Engineering (Diploma)</option>
-                <option value="Electronics & Telecommunication Engineering (Diploma)">Electronics & Telecommunication Engg (Diploma)</option>
-                <option value="Food Processing Technology (Diploma)">Food Processing Technology (Diploma)</option>
-                <option value="Mechanical Engineering (Diploma)">Mechanical Engineering (Diploma)</option>
-              </optgroup>
-              <optgroup label="Degree (B.Tech) Programs">
-                <option value="Civil Engineering (Degree)">Civil Engineering (Degree)</option>
-                <option value="Computer Science & Engineering (Degree)" selected>Computer Science & Engineering (Degree)</option>
-                <option value="Electrical Engineering (Degree)">Electrical Engineering (Degree)</option>
-                <option value="Electronics & Communication Engineering (Degree)">Electronics & Communication Engg (Degree)</option>
-                <option value="Mechanical Engineering (Degree)">Mechanical Engineering (Degree)</option>
-              </optgroup>
-              <optgroup label="M.Tech Programs">
-                <option value="M. Tech in Data Science">M. Tech in Data Science</option>
-                <option value="M. Tech in Thermal Engineering">M. Tech in Thermal Engineering</option>
-                <option value="M. Tech in VLSI & Embedded Systems">M. Tech in VLSI & Embedded Systems</option>
-                <option value="M. Tech in Power & Energy System">M. Tech in Power & Energy System</option>
-              </optgroup>
-            </select>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="newSubjectDept">Department / Branch *</label>
+              <select id="newSubjectDept" required>
+                <!-- Dynamically populated based on selected Program -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="newSubjectSemester">Semester *</label>
+              <select id="newSubjectSemester" required>
+                <!-- Dynamically populated based on selected Program -->
+              </select>
+            </div>
           </div>
           <div class="form-group" id="assignFacultyGroup" style="display: none;">
             <label for="newSubjectTeacherSelect"><i class="fa-solid fa-chalkboard-user"></i> Assigned Faculty Member *</label>

@@ -493,10 +493,18 @@ const TIT_PROGRAM_DATA = {
       'Semester 4 (2nd Year)',
       'Semester 5 (3rd Year)',
       'Semester 6 (3rd Year)'
+    ],
+    subjectSemesters: [
+      'Semester 1',
+      'Semester 2',
+      'Semester 3',
+      'Semester 4',
+      'Semester 5',
+      'Semester 6'
     ]
   },
-  'Degree': {
-    label: 'Degree (B.Tech - 4 Years)',
+  'B.Tech': {
+    label: 'B.Tech (Degree - 4 Years)',
     departments: [
       { value: 'Civil Engineering (Degree)', text: 'Civil Engineering' },
       { value: 'Computer Science & Engineering (Degree)', text: 'Computer Science & Engineering' },
@@ -513,6 +521,16 @@ const TIT_PROGRAM_DATA = {
       'Semester 6 (3rd Year)',
       'Semester 7 (4th Year)',
       'Semester 8 (4th Year)'
+    ],
+    subjectSemesters: [
+      'Semester 1',
+      'Semester 2',
+      'Semester 3',
+      'Semester 4',
+      'Semester 5',
+      'Semester 6',
+      'Semester 7',
+      'Semester 8'
     ]
   },
   'M.Tech': {
@@ -528,9 +546,17 @@ const TIT_PROGRAM_DATA = {
       'Semester 2 (1st Year)',
       'Semester 3 (2nd Year)',
       'Semester 4 (2nd Year)'
+    ],
+    subjectSemesters: [
+      'Semester 1',
+      'Semester 2',
+      'Semester 3',
+      'Semester 4'
     ]
   }
 };
+// Backward compatibility alias
+TIT_PROGRAM_DATA['Degree'] = TIT_PROGRAM_DATA['B.Tech'];
 
 function onStudentProgramChange() {
   const progSelect = document.getElementById('regStudentProgram');
@@ -538,8 +564,8 @@ function onStudentProgramChange() {
   const semSelect = document.getElementById('regStudentSemester');
   if (!progSelect || !deptSelect || !semSelect) return;
 
-  const selectedProgram = progSelect.value || 'Degree';
-  const progInfo = TIT_PROGRAM_DATA[selectedProgram] || TIT_PROGRAM_DATA['Degree'];
+  const selectedProgram = progSelect.value || 'B.Tech';
+  const progInfo = TIT_PROGRAM_DATA[selectedProgram] || TIT_PROGRAM_DATA['B.Tech'];
 
   const currentDeptVal = deptSelect.value;
   deptSelect.innerHTML = `<option value="" disabled ${!currentDeptVal ? 'selected' : ''}>-- Select ${selectedProgram} Branch --</option>` +
@@ -550,6 +576,25 @@ function onStudentProgramChange() {
   }
 
   semSelect.innerHTML = progInfo.semesters.map((sem, idx) =>
+    `<option value="${sem}" ${idx === 0 ? 'selected' : ''}>${sem}</option>`
+  ).join('');
+}
+
+function onSubjectProgramChange() {
+  const progSelect = document.getElementById('newSubjectProgram');
+  const deptSelect = document.getElementById('newSubjectDept');
+  const semSelect = document.getElementById('newSubjectSemester');
+  if (!progSelect || !deptSelect || !semSelect) return;
+
+  const selectedProgram = progSelect.value || 'B.Tech';
+  const progInfo = TIT_PROGRAM_DATA[selectedProgram] || TIT_PROGRAM_DATA['B.Tech'];
+
+  deptSelect.innerHTML = progInfo.departments.map(d =>
+    `<option value="${d.value}">${d.text}</option>`
+  ).join('');
+
+  const semList = progInfo.subjectSemesters || progInfo.semesters;
+  semSelect.innerHTML = semList.map((sem, idx) =>
     `<option value="${sem}" ${idx === 0 ? 'selected' : ''}>${sem}</option>`
   ).join('');
 }
@@ -784,7 +829,7 @@ async function handleRegisterSubmit(event) {
     department = document.getElementById('regTeacherDept').value;
   } else {
     rollNo = document.getElementById('regStudentRoll').value.trim();
-    program = document.getElementById('regStudentProgram')?.value || 'Degree';
+    program = document.getElementById('regStudentProgram')?.value || 'B.Tech';
     semester = document.getElementById('regStudentSemester').value;
     department = document.getElementById('regStudentDept').value;
 
@@ -1251,7 +1296,7 @@ function renderPrincipalAllSubjectsTable() {
     return `
       <tr>
         <td><span class="sub-code-badge">${sub.code}</span></td>
-        <td><strong>${sub.title}</strong></td>
+        <td><strong>${sub.title}</strong> <span class="badge badge-info" style="font-size:0.7rem; margin-left:4px;">${sub.program || 'B.Tech'}</span></td>
         <td>
           <i class="fa-solid fa-chalkboard-user" style="color: var(--primary); margin-right: 4px;"></i>
           ${sub.teacherName}
@@ -1454,7 +1499,7 @@ function renderTeacherDashboard(user) {
           <div>
             <div class="sub-card-header">
               <span class="sub-code-badge">${sub.code}</span>
-              <span class="badge badge-info">${sub.semester}</span>
+              <span class="badge badge-info">${sub.program || 'B.Tech'} • ${sub.semester}</span>
             </div>
             <h4 class="sub-title">${sub.title}</h4>
             <p class="sub-desc">${sub.desc || 'No description provided.'}</p>
@@ -1550,6 +1595,7 @@ function openCreateSubjectModal() {
     assignGroup.style.display = 'none';
   }
 
+  onSubjectProgramChange();
   document.getElementById('modalCreateSubject').style.display = 'flex';
 }
 
@@ -1563,6 +1609,7 @@ async function handleCreateSubjectSubmit(event) {
 
   const title = document.getElementById('newSubjectName').value.trim();
   const code = document.getElementById('newSubjectCode').value.trim().toUpperCase();
+  const program = document.getElementById('newSubjectProgram')?.value || 'B.Tech';
   const semester = document.getElementById('newSubjectSemester').value;
   const department = document.getElementById('newSubjectDept').value;
   const desc = document.getElementById('newSubjectDesc').value.trim();
@@ -1593,6 +1640,7 @@ async function handleCreateSubjectSubmit(event) {
     id: subId,
     code: code,
     title: title,
+    program: program,
     teacherId: assignedTeacherId,
     teacherName: assignedTeacherName,
     department: department,
@@ -2152,7 +2200,7 @@ function renderBrowseSubjectsList() {
     return `
       <div class="browse-sub-item">
         <div class="browse-sub-info">
-          <h4>${sub.title} <span class="sub-code-badge">${sub.code}</span></h4>
+          <h4>${sub.title} <span class="sub-code-badge">${sub.code}</span> <span class="badge badge-info" style="font-size: 0.7rem; margin-left: 6px;">${sub.program || 'B.Tech'}</span></h4>
           <p><i class="fa-solid fa-chalkboard-user"></i> Faculty: <strong>${sub.teacherName}</strong> | Department: ${sub.department} (${sub.semester})</p>
           <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 4px;">${sub.desc || ''}</div>
         </div>
@@ -2646,6 +2694,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   updateFirebaseStatusBadge();
   onStudentProgramChange();
+  onSubjectProgramChange();
 
   const user = AMS.getCurrentUser();
   if (user) {
