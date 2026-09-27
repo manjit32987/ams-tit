@@ -461,14 +461,14 @@ function updateLoginRole(role) {
   const hint = document.getElementById('loginRoleHint');
   const emailInput = document.getElementById('loginEmail');
   if (role === 'principal') {
-    hint.innerHTML = 'Role: <strong>Principal (Super Admin)</strong>';
-    if (!emailInput.value) emailInput.placeholder = 'e.g. principal@institution.edu';
+    if (hint) hint.innerHTML = 'Role: <strong>Principal (Super Admin)</strong>';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. principal@institution.edu';
   } else if (role === 'teacher') {
-    hint.innerHTML = 'Role: <strong>Faculty / Teacher</strong>';
-    if (!emailInput.value) emailInput.placeholder = 'e.g. prof.sharma@institution.edu';
+    if (hint) hint.innerHTML = 'Role: <strong>Faculty / Teacher</strong>';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. prof.sharma@institution.edu';
   } else {
-    hint.innerHTML = 'Role: <strong>Enrolled Student</strong>';
-    if (!emailInput.value) emailInput.placeholder = 'e.g. rahul.cse@institution.edu';
+    if (hint) hint.innerHTML = 'Role: <strong>Enrolled Student</strong>';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. rahul.cse@institution.edu';
   }
 }
 

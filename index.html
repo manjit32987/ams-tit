@@ -14,6 +14,8 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
+  <link rel="icon" type="image/png" href="tit-logo.png">
+  
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -35,16 +37,11 @@
     <div class="auth-container">
       <!-- Centered Auth Card (Login / Register Tabs) -->
       <div class="auth-card">
-        <!-- Institutional Header -->
+        <!-- Institutional Header with Official TIT Logo -->
         <div class="auth-brand-header">
-          <div class="brand-badge">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>TIT Institutional Portal</span>
-          </div>
-          <h1 class="auth-main-title">Academic Attendance Portal</h1>
-          <p class="auth-main-subtitle">
-            Secure portal for Principal, Faculty, and Students
-          </p>
+          <img src="tit-logo.png" alt="Tripura Institute of Technology Logo" class="auth-tit-logo">
+          <h1 class="auth-main-title">Tripura Institute of Technology</h1>
+          <p class="auth-main-subtitle">Attendance Management System</p>
         </div>
         <!-- Main Mode Switcher: Login vs Register -->
         <div class="auth-nav-tabs">
@@ -119,9 +116,6 @@
               <button type="button" class="btn-text-link" onclick="handleForgotPassword()" style="background: none; border: none; color: var(--primary); font-size: 0.82rem; cursor: pointer; text-decoration: underline; font-weight: 500;">
                 Forgot Password?
               </button>
-            </div>
-            <div style="margin-bottom: 16px; font-size: 0.8rem; color: var(--text-secondary);">
-              <span class="role-note" id="loginRoleHint">Role: <strong>Principal (Super Admin)</strong></span>
             </div>
 
             <button type="submit" class="btn btn-primary btn-block" id="btnLoginSubmit">
@@ -298,7 +292,7 @@
           <i class="fa-solid fa-bars"></i>
         </button>
         <div class="brand-title">
-          <i class="fa-solid fa-graduation-cap"></i>
+          <img src="tit-logo.png" alt="TIT Logo" class="topbar-logo" style="width: 28px; height: 28px; object-fit: contain; margin-right: 6px;">
           <span>TIT <strong>AMS</strong></span>
           <span class="role-badge" id="navRoleBadge">Principal</span>
         </div>
