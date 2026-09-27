@@ -462,13 +462,13 @@ function updateLoginRole(role) {
   const emailInput = document.getElementById('loginEmail');
   if (role === 'principal') {
     if (hint) hint.innerHTML = 'Role: <strong>Principal (Super Admin)</strong>';
-    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. principal@institution.edu';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'Enter email address';
   } else if (role === 'teacher') {
     if (hint) hint.innerHTML = 'Role: <strong>Faculty / Teacher</strong>';
-    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. prof.sharma@institution.edu';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'Enter email address';
   } else {
     if (hint) hint.innerHTML = 'Role: <strong>Enrolled Student</strong>';
-    if (emailInput && !emailInput.value) emailInput.placeholder = 'e.g. rahul.cse@institution.edu';
+    if (emailInput && !emailInput.value) emailInput.placeholder = 'Enter email address';
   }
 }
 
@@ -1752,7 +1752,7 @@ function renderTeacherAttendanceSheet() {
           </div>
         </td>
         <td>
-          <input type="text" class="att-remark-input" value="${escapeHtml(remarks)}" placeholder="Optional remark (e.g. Lab, Excused)...">
+          <input type="text" class="att-remark-input" value="${escapeHtml(remarks)}" placeholder="Optional remark...">
         </td>
       </tr>
     `;
