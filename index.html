@@ -218,64 +218,47 @@
               </div>
             </div>
 
-            <!-- Student specific: Roll No, Branch, Semester -->
+            <!-- Student specific: Program Level, Branch/Department, Semester, Roll No -->
             <div id="studentFields" class="role-specific-container" style="display: none;">
               <div class="form-row-2">
+                <div class="form-group">
+                  <label for="regStudentProgram">Program / Course Level *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <select id="regStudentProgram" onchange="onStudentProgramChange()">
+                      <option value="Degree" selected>Degree (B.Tech - 4 Years)</option>
+                      <option value="Diploma">Diploma (Polytechnic - 3 Years)</option>
+                      <option value="M.Tech">M.Tech (Postgraduate - 2 Years)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="regStudentDept">Branch / Department *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <select id="regStudentDept" required>
+                      <!-- Dynamically populated based on selected Program -->
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="regStudentSemester">Semester / Year *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <select id="regStudentSemester" required>
+                      <!-- Dynamically populated based on selected Program -->
+                    </select>
+                  </div>
+                </div>
                 <div class="form-group">
                   <label for="regStudentRoll">University Roll No *</label>
                   <div class="input-with-icon">
                     <i class="fa-solid fa-hashtag"></i>
                     <input type="text" id="regStudentRoll" placeholder="e.g. CSE-2024-042">
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="regStudentSemester">Semester / Year *</label>
-                  <div class="input-with-icon">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <select id="regStudentSemester">
-                      <option value="Semester 1 (1st Year)">Semester 1 (1st Year)</option>
-                      <option value="Semester 2 (1st Year)">Semester 2 (1st Year)</option>
-                      <option value="Semester 3 (2nd Year)">Semester 3 (2nd Year)</option>
-                      <option value="Semester 4 (2nd Year)">Semester 4 (2nd Year)</option>
-                      <option value="Semester 5 (3rd Year)" selected>Semester 5 (3rd Year)</option>
-                      <option value="Semester 6 (3rd Year)">Semester 6 (3rd Year)</option>
-                      <option value="Semester 7 (4th Year)">Semester 7 (4th Year)</option>
-                      <option value="Semester 8 (4th Year)">Semester 8 (4th Year)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="regStudentDept">Branch / Department *</label>
-                <div class="input-with-icon">
-                  <i class="fa-solid fa-building-columns"></i>
-                  <select id="regStudentDept" required>
-                    <option value="" disabled selected>-- Select Your Department / Program --</option>
-                    <optgroup label="Diploma Programs">
-                      <option value="Architectural Assistantship (Diploma)">Architectural Assistantship</option>
-                      <option value="Automobile Engineering (Diploma)">Automobile Engineering</option>
-                      <option value="Civil Engineering (Diploma)">Civil Engineering</option>
-                      <option value="Computer Science & Technology (Diploma)">Computer Science & Technology</option>
-                      <option value="Electrical Engineering (Diploma)">Electrical Engineering</option>
-                      <option value="Electronics & Telecommunication Engineering (Diploma)">Electronics & Telecommunication Engineering</option>
-                      <option value="Food Processing Technology (Diploma)">Food Processing Technology</option>
-                      <option value="Mechanical Engineering (Diploma)">Mechanical Engineering</option>
-                    </optgroup>
-                    <optgroup label="Degree (B.Tech) Programs">
-                      <option value="Civil Engineering (Degree)">Civil Engineering</option>
-                      <option value="Computer Science & Engineering (Degree)">Computer Science & Engineering</option>
-                      <option value="Electrical Engineering (Degree)">Electrical Engineering</option>
-                      <option value="Electronics & Communication Engineering (Degree)">Electronics & Communication Engineering</option>
-                      <option value="Mechanical Engineering (Degree)">Mechanical Engineering</option>
-                    </optgroup>
-                    <optgroup label="M.Tech (Postgraduate) Programs">
-                      <option value="M. Tech in Data Science">M. Tech in Data Science</option>
-                      <option value="M. Tech in Thermal Engineering">M. Tech in Thermal Engineering</option>
-                      <option value="M. Tech in VLSI & Embedded Systems">M. Tech in VLSI & Embedded Systems</option>
-                      <option value="M. Tech in Power & Energy System">M. Tech in Power & Energy System</option>
-                    </optgroup>
-                  </select>
                 </div>
               </div>
             </div>

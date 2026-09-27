@@ -472,6 +472,88 @@ function updateLoginRole(role) {
   }
 }
 
+// Academic Program & Department Mapping for Tripura Institute of Technology
+const TIT_PROGRAM_DATA = {
+  'Diploma': {
+    label: 'Diploma (Polytechnic - 3 Years)',
+    departments: [
+      { value: 'Architectural Assistantship (Diploma)', text: 'Architectural Assistantship' },
+      { value: 'Automobile Engineering (Diploma)', text: 'Automobile Engineering' },
+      { value: 'Civil Engineering (Diploma)', text: 'Civil Engineering' },
+      { value: 'Computer Science & Technology (Diploma)', text: 'Computer Science & Technology' },
+      { value: 'Electrical Engineering (Diploma)', text: 'Electrical Engineering' },
+      { value: 'Electronics & Telecommunication Engineering (Diploma)', text: 'Electronics & Telecommunication Engg' },
+      { value: 'Food Processing Technology (Diploma)', text: 'Food Processing Technology' },
+      { value: 'Mechanical Engineering (Diploma)', text: 'Mechanical Engineering' }
+    ],
+    semesters: [
+      'Semester 1 (1st Year)',
+      'Semester 2 (1st Year)',
+      'Semester 3 (2nd Year)',
+      'Semester 4 (2nd Year)',
+      'Semester 5 (3rd Year)',
+      'Semester 6 (3rd Year)'
+    ]
+  },
+  'Degree': {
+    label: 'Degree (B.Tech - 4 Years)',
+    departments: [
+      { value: 'Civil Engineering (Degree)', text: 'Civil Engineering' },
+      { value: 'Computer Science & Engineering (Degree)', text: 'Computer Science & Engineering' },
+      { value: 'Electrical Engineering (Degree)', text: 'Electrical Engineering' },
+      { value: 'Electronics & Communication Engineering (Degree)', text: 'Electronics & Communication Engg' },
+      { value: 'Mechanical Engineering (Degree)', text: 'Mechanical Engineering' }
+    ],
+    semesters: [
+      'Semester 1 (1st Year)',
+      'Semester 2 (1st Year)',
+      'Semester 3 (2nd Year)',
+      'Semester 4 (2nd Year)',
+      'Semester 5 (3rd Year)',
+      'Semester 6 (3rd Year)',
+      'Semester 7 (4th Year)',
+      'Semester 8 (4th Year)'
+    ]
+  },
+  'M.Tech': {
+    label: 'M.Tech (Postgraduate - 2 Years)',
+    departments: [
+      { value: 'M. Tech in Data Science', text: 'M. Tech in Data Science' },
+      { value: 'M. Tech in Thermal Engineering', text: 'M. Tech in Thermal Engineering' },
+      { value: 'M. Tech in VLSI & Embedded Systems', text: 'M. Tech in VLSI & Embedded Systems' },
+      { value: 'M. Tech in Power & Energy System', text: 'M. Tech in Power & Energy System' }
+    ],
+    semesters: [
+      'Semester 1 (1st Year)',
+      'Semester 2 (1st Year)',
+      'Semester 3 (2nd Year)',
+      'Semester 4 (2nd Year)'
+    ]
+  }
+};
+
+function onStudentProgramChange() {
+  const progSelect = document.getElementById('regStudentProgram');
+  const deptSelect = document.getElementById('regStudentDept');
+  const semSelect = document.getElementById('regStudentSemester');
+  if (!progSelect || !deptSelect || !semSelect) return;
+
+  const selectedProgram = progSelect.value || 'Degree';
+  const progInfo = TIT_PROGRAM_DATA[selectedProgram] || TIT_PROGRAM_DATA['Degree'];
+
+  const currentDeptVal = deptSelect.value;
+  deptSelect.innerHTML = `<option value="" disabled ${!currentDeptVal ? 'selected' : ''}>-- Select ${selectedProgram} Branch --</option>` +
+    progInfo.departments.map(d => `<option value="${d.value}" ${d.value === currentDeptVal ? 'selected' : ''}>${d.text}</option>`).join('');
+
+  if (!deptSelect.value && progInfo.departments.length > 0) {
+    deptSelect.selectedIndex = 1;
+  }
+
+  semSelect.innerHTML = progInfo.semesters.map((sem, idx) =>
+    `<option value="${sem}" ${idx === 0 ? 'selected' : ''}>${sem}</option>`
+  ).join('');
+}
+
 function switchRegisterType(type) {
   currentRegisterType = type;
   const btnTeacher = document.getElementById('regTypeTeacherBtn');
@@ -495,6 +577,7 @@ function switchRegisterType(type) {
     studentFields.style.display = 'block';
     alertBanner.style.display = 'none';
     submitText.textContent = 'Register Student Account';
+    onStudentProgramChange();
   }
 }
 
@@ -694,14 +777,21 @@ async function handleRegisterSubmit(event) {
   let department = '';
   let rollNo = '';
   let semester = '';
+  let program = '';
 
   if (currentRegisterType === 'teacher') {
     teacherId = document.getElementById('regTeacherId').value.trim() || `FAC-${Date.now().toString().slice(-4)}`;
     department = document.getElementById('regTeacherDept').value;
   } else {
     rollNo = document.getElementById('regStudentRoll').value.trim();
+    program = document.getElementById('regStudentProgram')?.value || 'Degree';
     semester = document.getElementById('regStudentSemester').value;
     department = document.getElementById('regStudentDept').value;
+
+    if (!department) {
+      showToast('Department Required', 'Please select your academic branch / department.', 'warning');
+      return;
+    }
 
     if (!rollNo) {
       showToast('Roll Number Required', 'Please provide your university roll number.', 'warning');
@@ -733,6 +823,7 @@ async function handleRegisterSubmit(event) {
         newProfile.teacherId = teacherId;
         newProfile.department = department;
       } else {
+        newProfile.program = program;
         newProfile.rollNo = rollNo;
         newProfile.semester = semester;
         newProfile.department = department;
@@ -839,6 +930,7 @@ async function handleRegisterSubmit(event) {
       7000
     );
   } else {
+    newAccount.program = program;
     newAccount.rollNo = rollNo;
     newAccount.semester = semester;
     newAccount.department = department;
@@ -902,7 +994,7 @@ function initAppShell() {
     roleBadge.textContent = 'Faculty Member';
     roleSubtext.textContent = user.department || 'Teaching Faculty';
   } else {
-    roleBadge.textContent = 'Student';
+    roleBadge.textContent = user.program ? `${user.program} Student` : 'Student';
     roleSubtext.textContent = `${user.rollNo || ''} • ${user.semester || ''}`;
   }
 
@@ -2553,6 +2645,7 @@ function updateFirebaseStatusBadge() {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   updateFirebaseStatusBadge();
+  onStudentProgramChange();
 
   const user = AMS.getCurrentUser();
   if (user) {
