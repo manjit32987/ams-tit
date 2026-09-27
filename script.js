@@ -572,8 +572,14 @@ async function handleLoginSubmit(event) {
       initAppShell();
       return;
     } catch (fbErr) {
-      console.warn('Firebase login attempt:', fbErr.message);
-      showToast('Login Failed (Firebase)', fbErr.message, 'error', 5000);
+      console.warn('Firebase login attempt:', fbErr);
+      let errMsg = fbErr.message;
+      if (fbErr.code === 'auth/invalid-credential' || fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/user-not-found') {
+        errMsg = 'Invalid email or password. Please verify your credentials or click "Forgot Password?".';
+      } else if (fbErr.code === 'auth/too-many-requests') {
+        errMsg = 'Too many attempts. Access is temporarily disabled; please try again later or reset password.';
+      }
+      showToast('Login Failed (Firebase)', errMsg, 'error', 6000);
       return;
     }
   }
@@ -610,6 +616,43 @@ async function handleLoginSubmit(event) {
   AMS.setCurrentUser(user);
   showToast('Welcome!', `Logged in successfully as ${user.name} (${user.role.toUpperCase()})`, 'success');
   initAppShell();
+}
+
+// Handle Forgot Password via Firebase Auth
+async function handleForgotPassword() {
+  const emailInput = document.getElementById('loginEmail');
+  const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
+  if (!email) {
+    showToast(
+      'Email Required',
+      'Please enter your email address into the Email field above, then click "Forgot Password?".',
+      'warning',
+      5000
+    );
+    if (emailInput) emailInput.focus();
+    return;
+  }
+  if (typeof isFirebaseConfigured === 'function' && isFirebaseConfigured() && firebaseAuthInstance) {
+    try {
+      showToast('Sending Reset Email', `Contacting Firebase for ${email}...`, 'info', 2000);
+      await firebaseAuthInstance.sendPasswordResetEmail(email);
+      showToast(
+        'Password Reset Email Sent!',
+        `A password reset link was sent to ${email}. Check your inbox or spam folder.`,
+        'success',
+        7000
+      );
+    } catch (err) {
+      console.warn('Password reset error:', err);
+      let msg = err.message;
+      if (err.code === 'auth/user-not-found') {
+        msg = `No account found for "${email}". Please register an account first.`;
+      }
+      showToast('Password Reset Notice', msg, 'error', 6000);
+    }
+  } else {
+    showToast('Local Mode', 'Firebase is currently running in offline mock mode.', 'info', 4000);
+  }
 }
 
 // Handle Registration (Creates Firebase Auth user & Firestore profile, or local store)
@@ -721,6 +764,30 @@ async function handleRegisterSubmit(event) {
       document.getElementById('registerForm').reset();
       return;
     } catch (fbErr) {
+      console.warn('Firebase registration attempt:', fbErr);
+      if (fbErr.code === 'auth/email-already-in-use') {
+        showToast(
+          'Email Already Registered',
+          `The email "${email}" is already registered. Redirecting you to Sign In so you can log in.`,
+          'warning',
+          6000
+        );
+        switchAuthMode('login');
+        const loginEmailInput = document.getElementById('loginEmail');
+        if (loginEmailInput) loginEmailInput.value = email;
+        const pwdInput = document.getElementById('loginPassword');
+        if (pwdInput) {
+          pwdInput.value = '';
+          pwdInput.focus();
+        }
+        return;
+      } else if (fbErr.code === 'auth/weak-password') {
+        showToast('Weak Password', 'Password must be at least 6 characters long.', 'warning', 5000);
+        return;
+      } else if (fbErr.code === 'auth/invalid-email') {
+        showToast('Invalid Email', 'Please provide a valid email format.', 'warning', 5000);
+        return;
+      }
       showToast('Firebase Registration Error', fbErr.message, 'error', 6000);
       return;
     }
