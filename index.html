@@ -33,58 +33,19 @@
     </div>
 
     <div class="auth-container">
-      <!-- Left side: Brand Showcase & Demo credentials -->
-      <div class="auth-showcase">
-        <div class="brand-badge">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <span>TIT Institutional Portal</span>
-        </div>
-        <h1 class="showcase-title">Attendance & Academic Management Portal</h1>
-        <p class="showcase-desc">
-          Unified platform connecting the Principal's Administration, Faculty Course Management, and Student Attendance tracking with automated verification and reporting.
-        </p>
-
-        <div class="showcase-features">
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fa-solid fa-user-shield"></i></div>
-            <div>
-              <strong>Principal Sir Approval</strong>
-              <p>Faculty registrations are secured via administrative verification.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fa-solid fa-code-pull-request"></i></div>
-            <div>
-              <strong>Subject Request Workflow</strong>
-              <p>Students send join requests; respective subject teachers approve enrollment.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fa-solid fa-file-excel"></i></div>
-            <div>
-              <strong>One-Click Excel & PDF Exports</strong>
-              <p>Download comprehensive attendance sheets and official printable PDF reports.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Firebase Cloud Integration Panel -->
-        <div class="demo-accounts-card firebase-card">
-          <div class="demo-card-header">
-            <span><i class="fa-solid fa-fire" style="color: #f59e0b;"></i> Firebase Cloud Integration</span>
-            <span class="badge badge-info" id="firebaseLiveBadge">Setup Ready</span>
-          </div>
-          <p class="demo-hint" style="margin-bottom: 8px;">
-            Ready to connect with your real Firebase Authentication and Cloud Firestore project.
-          </p>
-          <div style="font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-subtle); padding: 10px; border-radius: var(--radius-sm); border: 1px dashed var(--border-subtle);">
-            <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i> Simply paste your project keys in <code>firebase-config.js</code> to enable live Cloud Auth and Firestore syncing.
-          </div>
-        </div>
-      </div>
-
-      <!-- Right side: Auth Form (Login / Register Tabs) -->
+      <!-- Centered Auth Card (Login / Register Tabs) -->
       <div class="auth-card">
+        <!-- Institutional Header -->
+        <div class="auth-brand-header">
+          <div class="brand-badge">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>TIT Institutional Portal</span>
+          </div>
+          <h1 class="auth-main-title">Academic Attendance Portal</h1>
+          <p class="auth-main-subtitle">
+            Secure portal for Principal, Faculty, and Students
+          </p>
+        </div>
         <!-- Main Mode Switcher: Login vs Register -->
         <div class="auth-nav-tabs">
           <button type="button" class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthMode('login')">

@@ -332,15 +332,41 @@ body.dark-theme .circle-3 {
 .auth-container {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr 1.08fr;
-  max-width: 1180px;
+  display: block;
+  max-width: 530px;
   width: 100%;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg), 0 20px 40px rgba(15, 23, 42, 0.08);
   overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Institutional Header in Single-Card Login */
+.auth-brand-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.auth-brand-header .brand-badge {
+  margin-bottom: 12px;
+}
+
+.auth-main-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.auth-main-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
 }
 
 /* Left Brand Showcase */
@@ -505,9 +531,9 @@ body.dark-theme .demo-pill.teacher-pill { color: #6ee7b7; background: rgba(16, 1
 body.dark-theme .demo-pill.pending-pill { color: #fcd34d; background: rgba(245, 158, 11, 0.15); }
 body.dark-theme .demo-pill.student-pill { color: #67e8f9; background: rgba(6, 182, 212, 0.15); }
 
-/* Right Auth Card */
+/* Centered Auth Card */
 .auth-card {
-  padding: 44px;
+  padding: 38px 36px;
   display: flex;
   flex-direction: column;
   background: var(--bg-surface);
@@ -2198,11 +2224,7 @@ body.dark-theme .modal-footer {
 /* Responsive Breakpoints */
 @media (max-width: 992px) {
   .auth-container {
-    grid-template-columns: 1fr;
-    max-width: 580px;
-  }
-  .auth-showcase {
-    display: none;
+    max-width: 100%;
   }
   .grid-2-col {
     grid-template-columns: 1fr;
