@@ -24,7 +24,7 @@ const STORAGE_KEYS = {
   SUBJECTS: 'tit_ams_subjects_v4',
   JOIN_REQUESTS: 'tit_ams_join_requests_v4',
   ATTENDANCE: 'tit_ams_attendance_v4',
-  HOLIDAYS: 'tit_ams_holidays_v4',
+  HOLIDAYS: 'tit_ams_holidays_2026_v1',
   RESOURCES: 'tit_ams_resources_v4',
   CURRENT_USER: 'tit_ams_current_user_v4'
 };
@@ -261,12 +261,57 @@ const DEFAULT_SEED_DATA = {
   ],
 
   holidays: [
-    { id: 'hol_1', title: 'Gandhi Jayanti', date: '2024-10-02', type: 'National', desc: 'Birth anniversary of Mahatma Gandhi. Institute will remain closed.' },
-    { id: 'hol_2', title: 'Maha Navami / Dussehra', date: '2024-10-12', type: 'Festival', desc: 'Vijayadashami festive break for students and faculty.' },
-    { id: 'hol_3', title: 'Diwali & Govardhan Puja', date: '2024-11-01', type: 'Festival', desc: 'Festival of Lights institutional recess.' },
-    { id: 'hol_4', title: 'Mid-Term Examinations', date: '2024-11-18', type: 'Academic', desc: 'Odd Semester Mid-Term Theory and Practical examinations commence.' },
-    { id: 'hol_5', title: 'Winter Vacation', date: '2024-12-25', type: 'Academic', desc: 'Year-end academic break and Christmas holiday.' },
-    { id: 'hol_6', title: 'Republic Day', date: '2025-01-26', type: 'National', desc: 'National flag hoisting ceremony at main campus.' }
+    // --- GOVERNMENT OF TRIPURA GAZETTED / GENERAL HOLIDAYS 2026 ---
+    { id: 'hol_2026_01', title: 'Pous Parban', date: '2026-01-14', type: 'Festival', category: 'Gazetted', desc: 'Makar Sankranti / Pous Parban harvest festival' },
+    { id: 'hol_2026_02', title: 'Birthday of Netaji Subhash Chandra Bose & Saraswati Puja', date: '2026-01-23', type: 'National', category: 'Gazetted', desc: 'Netaji Subhash Chandra Bose Jayanti and Saraswati Puja (Vasant Panchami)' },
+    { id: 'hol_2026_03', title: 'Republic Day', date: '2026-01-26', type: 'National', category: 'Gazetted', desc: '77th Republic Day of India - National Holiday' },
+    { id: 'hol_2026_04', title: 'Holi', date: '2026-03-04', type: 'Festival', category: 'Gazetted', desc: 'Holi festival of colors and spring joy' },
+    { id: 'hol_2026_05', title: 'Id-ul-Fitr', date: '2026-03-21', type: 'Festival', category: 'Gazetted', desc: 'Eid-ul-Fitr celebration (subject to moon sighting)' },
+    { id: 'hol_2026_06', title: 'Good Friday', date: '2026-04-03', type: 'Festival', category: 'Gazetted', desc: 'Christian holy day commemorating the crucifixion of Jesus Christ' },
+    { id: 'hol_2026_07', title: 'Biju / Buisu Festival', date: '2026-04-14', type: 'Festival', category: 'Gazetted', desc: 'Traditional indigenous new year festival of Tripura tribes' },
+    { id: 'hol_2026_08', title: 'Bengali New Year’s Day (Poila Boishakh)', date: '2026-04-15', type: 'Festival', category: 'Gazetted', desc: 'First day of the Bengali calendar (1433 B.S.) - Naba Barsha' },
+    { id: 'hol_2026_09', title: 'Garia Puja', date: '2026-04-21', type: 'Festival', category: 'Gazetted', desc: 'Sacred ethnic festival of Lord Garia celebrated across Tripura' },
+    { id: 'hol_2026_10', title: 'Buddha Purnima & May Day', date: '2026-05-01', type: 'Festival', category: 'Gazetted', desc: 'Birth, enlightenment & death of Gautama Buddha and International Workers Day' },
+    { id: 'hol_2026_11', title: 'Birthday of Kazi Nazrul Islam', date: '2026-05-26', type: 'Festival', category: 'Gazetted', desc: 'Birth anniversary of Revolutionary Poet (Bidrohi Kabi) Kazi Nazrul Islam' },
+    { id: 'hol_2026_12', title: 'Id-ul-Zuha (Bakrid)', date: '2026-05-27', type: 'Festival', category: 'Gazetted', desc: 'Feast of Sacrifice (Bakrid) Islamic festival' },
+    { id: 'hol_2026_13', title: 'Muharram', date: '2026-06-26', type: 'Festival', category: 'Gazetted', desc: 'First month of the Islamic calendar - Day of Ashura' },
+    { id: 'hol_2026_14', title: 'Kharchi Puja', date: '2026-07-22', type: 'Festival', category: 'Gazetted', desc: 'Worship of the Fourteen Gods (Chaturdasha Devata) at Old Agartala' },
+    { id: 'hol_2026_15', title: 'Ker Puja', date: '2026-08-04', type: 'Festival', category: 'Gazetted', desc: 'Traditional royal sacrificial ritual & strict ritual seclusion festival of Tripura' },
+    { id: 'hol_2026_16', title: 'Independence Day', date: '2026-08-15', type: 'National', category: 'Gazetted', desc: 'Indian Independence Day celebration with flag hoisting at TIT campus' },
+    { id: 'hol_2026_17', title: 'Birthday of Maharaja Bir Bikram Kishore Manikya Bahadur', date: '2026-08-19', type: 'State', category: 'Gazetted', desc: 'Birth anniversary of the Architect of Modern Tripura, Maharaja Bir Bikram' },
+    { id: 'hol_2026_18', title: 'Birthday of Prophet Mohammad (Milad-un-Nabi)', date: '2026-08-26', type: 'Festival', category: 'Gazetted', desc: 'Birth of Prophet Muhammad (PBUH) - Eid-e-Milad' },
+    { id: 'hol_2026_19', title: 'Janmashtami', date: '2026-09-04', type: 'Festival', category: 'Gazetted', desc: 'Shri Krishna Janmashtami celebration' },
+    { id: 'hol_2026_20', title: 'Mahatma Gandhi’s Birthday', date: '2026-10-02', type: 'National', category: 'Gazetted', desc: 'Birth anniversary of the Father of the Nation - Gandhi Jayanti' },
+    { id: 'hol_2026_21', title: 'Durga Puja (Maha Saptami)', date: '2026-10-17', type: 'Festival', category: 'Gazetted', desc: 'Commencement of Sharadotsav (Durga Puja Maha Saptami)' },
+    { id: 'hol_2026_22', title: 'Durga Puja (Maha Ashtami)', date: '2026-10-19', type: 'Festival', category: 'Gazetted', desc: 'Durga Puja Maha Ashtami & Sandhi Puja' },
+    { id: 'hol_2026_23', title: 'Durga Puja (Maha Navami)', date: '2026-10-20', type: 'Festival', category: 'Gazetted', desc: 'Durga Puja Maha Navami celebration' },
+    { id: 'hol_2026_24', title: 'Vijaya Dashami (Dussehra)', date: '2026-10-21', type: 'Festival', category: 'Gazetted', desc: 'Vijaya Dashami immersion and Dussehra celebrations' },
+    { id: 'hol_2026_25', title: 'Puja Holiday Extension', date: '2026-10-22', type: 'Festival', category: 'Gazetted', desc: 'State Government festival recess following Vijaya Dashami' },
+    { id: 'hol_2026_26', title: 'Puja Holiday Extension', date: '2026-10-23', type: 'Festival', category: 'Gazetted', desc: 'State Government festival recess leading up to Lakshmi Puja' },
+    { id: 'hol_2026_27', title: 'Laxmi Puja', date: '2026-10-26', type: 'Festival', category: 'Gazetted', desc: 'Kojagari Lakshmi Puja state holiday' },
+    { id: 'hol_2026_28', title: 'Diwali & Kali Puja', date: '2026-11-09', type: 'Festival', category: 'Gazetted', desc: 'Deepavali festival of lights and Shyama Puja (Tripura Sundari Temple Mata Bari)' },
+    { id: 'hol_2026_29', title: 'Christmas Day', date: '2026-12-25', type: 'Festival', category: 'Gazetted', desc: 'Christmas Day celebration and year-end institutional recess' },
+
+    // --- RESTRICTED HOLIDAYS 2026 (GOVERNMENT OF TRIPURA) ---
+    { id: 'hol_2026_r01', title: 'New Year’s Day', date: '2026-01-01', type: 'Restricted', category: 'Restricted', desc: 'English New Year Day (Government Restricted Holiday)' },
+    { id: 'hol_2026_r02', title: 'Dol Yatra', date: '2026-03-03', type: 'Restricted', category: 'Restricted', desc: 'Dol Purnima eve / Chhoti Holi (Restricted Holiday)' },
+    { id: 'hol_2026_r03', title: 'Basanti Puja', date: '2026-03-25', type: 'Restricted', category: 'Restricted', desc: 'Basanti Durga Puja celebration (Restricted Holiday)' },
+    { id: 'hol_2026_r04', title: 'Mahavir Jayanti', date: '2026-03-31', type: 'Restricted', category: 'Restricted', desc: 'Birth anniversary of Bhagwan Mahavira (Restricted Holiday)' },
+    { id: 'hol_2026_r05', title: 'Jamaisasthi', date: '2026-06-20', type: 'Restricted', category: 'Restricted', desc: 'Traditional family social festival (Restricted Holiday)' },
+    { id: 'hol_2026_r06', title: 'Rath Yatra', date: '2026-07-16', type: 'Restricted', category: 'Restricted', desc: 'Lord Jagannath Chariot Festival (Restricted Holiday)' },
+    { id: 'hol_2026_r07', title: 'Akheri Chahar Sumba', date: '2026-08-12', type: 'Restricted', category: 'Restricted', desc: 'Safar Islamic observance (Restricted Holiday)' },
+    { id: 'hol_2026_r08', title: 'Jhulan Jatra Samapan', date: '2026-08-28', type: 'Restricted', category: 'Restricted', desc: 'Conclusion of Jhulan Yatra festival (Restricted Holiday)' },
+    { id: 'hol_2026_r09', title: 'Songkrongma Puja', date: '2026-09-11', type: 'Restricted', category: 'Restricted', desc: 'Traditional indigenous Puja festival of Tripura (Restricted Holiday)' },
+    { id: 'hol_2026_r10', title: 'Biswakarma Puja', date: '2026-09-18', type: 'Restricted', category: 'Restricted', desc: 'Lord Vishwakarma Puja - Engineering & Technical Day (Restricted Holiday)' },
+    { id: 'hol_2026_r11', title: 'Bhratri Dwitiya (Bhai Dooj)', date: '2026-11-11', type: 'Restricted', category: 'Restricted', desc: 'Bhai Phonta / Bhratri Dwitiya festival (Restricted Holiday)' },
+    { id: 'hol_2026_r12', title: 'Guru Nanak Jayanti', date: '2026-11-24', type: 'Restricted', category: 'Restricted', desc: 'Guru Nanak Dev Ji Prakash Utsav (Restricted Holiday)' },
+    { id: 'hol_2026_r13', title: 'World Disabled Day', date: '2026-12-03', type: 'Restricted', category: 'Restricted', desc: 'International Day of Persons with Disabilities (Restricted Holiday)' },
+    { id: 'hol_2026_r14', title: 'Christmas Eve', date: '2026-12-24', type: 'Restricted', category: 'Restricted', desc: 'Christmas Eve celebration (Restricted Holiday)' },
+
+    // --- FESTIVALS FALLING ON SUNDAYS / 2ND SATURDAYS (CALENDAR NOTE) ---
+    { id: 'hol_2026_n01', title: 'Maha Shivratri', date: '2026-02-15', type: 'Festival', category: 'Gazetted', desc: 'Great Night of Shiva (Falls on Sunday in 2026 Calendar)' },
+    { id: 'hol_2026_n02', title: 'Rabindra Jayanti (Birthday of Rabindranath Tagore)', date: '2026-05-09', type: 'State', category: 'Gazetted', desc: 'Birth anniversary of Kobiguru Rabindranath Tagore (Falls on 2nd Saturday in 2026 Calendar)' },
+    { id: 'hol_2026_n03', title: 'Mahalaya', date: '2026-10-10', type: 'Festival', category: 'Gazetted', desc: 'Tarpan and beginning of Devi Paksha (Falls on 2nd Saturday in 2026 Calendar)' }
   ],
 
   resources: [
@@ -369,6 +414,10 @@ const AMS = {
       localStorage.setItem(STORAGE_KEYS.ATTENDANCE, JSON.stringify(DEFAULT_SEED_DATA.attendance));
       localStorage.setItem(STORAGE_KEYS.HOLIDAYS, JSON.stringify(DEFAULT_SEED_DATA.holidays));
       localStorage.setItem(STORAGE_KEYS.RESOURCES, JSON.stringify(DEFAULT_SEED_DATA.resources));
+    }
+    // Guarantee 2026 Government of Tripura Holiday Calendar is always populated
+    if (!localStorage.getItem(STORAGE_KEYS.HOLIDAYS) || forceReset) {
+      localStorage.setItem(STORAGE_KEYS.HOLIDAYS, JSON.stringify(DEFAULT_SEED_DATA.holidays));
     }
   }
 };
@@ -2382,10 +2431,12 @@ function renderAcademicHolidaysView(user) {
 
   if (upcoming) {
     document.getElementById('nextHolidayTitle').textContent = upcoming.title;
-    document.getElementById('nextHolidayDate').textContent = `${upcoming.date} (${upcoming.type} Holiday)`;
+    const dUp = new Date(upcoming.date + 'T00:00:00');
+    const formattedDate = dUp.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    document.getElementById('nextHolidayDate').textContent = `${formattedDate} (${upcoming.type} Holiday - ${upcoming.category || 'Tripura Govt'})`;
 
     const d1 = new Date();
-    const d2 = new Date(upcoming.date);
+    const d2 = new Date(upcoming.date + 'T00:00:00');
     const diffTime = d2.getTime() - d1.getTime();
     const diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
     document.getElementById('holidayDaysLeft').textContent = diffDays;
@@ -2408,7 +2459,12 @@ function renderHolidaysGrid(holidays) {
   const container = document.getElementById('holidaysListGrid');
   const cat = currentHolidayCategoryFilter;
 
-  const filtered = cat === 'all' ? holidays : holidays.filter(h => h.type.toLowerCase() === cat.toLowerCase());
+  const filtered = cat === 'all'
+    ? holidays
+    : holidays.filter(h =>
+        (h.type && h.type.toLowerCase() === cat.toLowerCase()) ||
+        (h.category && h.category.toLowerCase() === cat.toLowerCase())
+      );
 
   if (filtered.length === 0) {
     container.innerHTML = '<p class="text-muted" style="grid-column: 1 / -1; padding: 20px;">No holidays found in this category.</p>';
@@ -2416,13 +2472,16 @@ function renderHolidaysGrid(holidays) {
   }
 
   container.innerHTML = filtered.map(h => {
-    const d = new Date(h.date);
+    const d = new Date(h.date + 'T00:00:00');
     const month = d.toLocaleString('en-US', { month: 'short' });
     const day = d.getDate();
+    const weekday = d.toLocaleString('en-US', { weekday: 'short' });
 
     let tagColor = 'badge-info';
     if (h.type === 'National') tagColor = 'badge-success';
     if (h.type === 'Festival') tagColor = 'badge-warning';
+    if (h.type === 'State') tagColor = 'badge-primary';
+    if (h.type === 'Restricted' || h.category === 'Restricted') tagColor = 'badge-danger';
 
     return `
       <div class="holiday-item-card">
@@ -2430,10 +2489,16 @@ function renderHolidaysGrid(holidays) {
           <span class="h-month">${month}</span>
           <span class="h-day">${day}</span>
         </div>
-        <div class="holiday-info">
+        <div class="holiday-info" style="flex: 1;">
           <h4>${h.title}</h4>
-          <p>${h.desc || 'Institute Holiday'}</p>
-          <span class="badge ${tagColor}" style="margin-top: 6px;">${h.type}</span>
+          <p>${h.desc || 'Government of Tripura Holiday'}</p>
+          <div style="display: flex; gap: 6px; align-items: center; margin-top: 6px; flex-wrap: wrap;">
+            <span class="badge ${tagColor}">${h.type}</span>
+            ${h.category && h.category !== h.type ? `<span class="badge badge-info" style="font-size: 0.68rem; opacity: 0.85;">${h.category}</span>` : ''}
+            <span style="font-size: 0.72rem; color: var(--text-muted); margin-left: auto;">
+              <i class="fa-regular fa-calendar"></i> ${weekday}, ${h.date}
+            </span>
+          </div>
         </div>
       </div>
     `;
