@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TIT AMS - Academic Attendance & Management System</title>
+  <meta name="description" content="Comprehensive Academic Attendance Management System for Principal, Teachers, and Students with Join Requests, Daily Attendance, Excel/PDF Exports, Resources, and Academic Holidays.">
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- ======================================================== -->
+  <!-- 1. AUTHENTICATION VIEW (Login & Registration)            -->
+  <!-- ======================================================== -->
+  <div id="authView" class="auth-wrapper">
+    <div class="auth-background-decor">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
+
+    <div class="auth-container">
+      <!-- Left side: Brand Showcase & Demo credentials -->
+      <div class="auth-showcase">
+        <div class="brand-badge">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>TIT Institutional Portal</span>
+        </div>
+        <h1 class="showcase-title">Attendance & Academic Management Portal</h1>
+        <p class="showcase-desc">
+          Unified platform connecting the Principal's Administration, Faculty Course Management, and Student Attendance tracking with automated verification and reporting.
+        </p>
+
+        <div class="showcase-features">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-user-shield"></i></div>
+            <div>
+              <strong>Principal Sir Approval</strong>
+              <p>Faculty registrations are secured via administrative verification.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-code-pull-request"></i></div>
+            <div>
+              <strong>Subject Request Workflow</strong>
+              <p>Students send join requests; respective subject teachers approve enrollment.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-file-excel"></i></div>
+            <div>
+              <strong>One-Click Excel & PDF Exports</strong>
+              <p>Download comprehensive attendance sheets and official printable PDF reports.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Firebase Cloud Integration Panel -->
+        <div class="demo-accounts-card firebase-card">
+          <div class="demo-card-header">
+            <span><i class="fa-solid fa-fire" style="color: #f59e0b;"></i> Firebase Cloud Integration</span>
+            <span class="badge badge-info" id="firebaseLiveBadge">Setup Ready</span>
+          </div>
+          <p class="demo-hint" style="margin-bottom: 8px;">
+            Ready to connect with your real Firebase Authentication and Cloud Firestore project.
+          </p>
+          <div style="font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-subtle); padding: 10px; border-radius: var(--radius-sm); border: 1px dashed var(--border-subtle);">
+            <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i> Simply paste your project keys in <code>firebase-config.js</code> to enable live Cloud Auth and Firestore syncing.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Auth Form (Login / Register Tabs) -->
+      <div class="auth-card">
+        <!-- Main Mode Switcher: Login vs Register -->
+        <div class="auth-nav-tabs">
+          <button type="button" class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthMode('login')">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+          </button>
+          <button type="button" class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthMode('register')">
+            <i class="fa-solid fa-user-plus"></i> Register
+          </button>
+        </div>
+
+        <!-- ================= LOGIN FORM ================= -->
+        <div id="loginSection" class="auth-form-section">
+          <div class="form-header">
+            <h2>Welcome Back</h2>
+            <p>Select your portal role and enter your institutional credentials.</p>
+          </div>
+
+          <!-- Role Selector for Login: Principal, Teacher, Student -->
+          <div class="role-selector" role="radiogroup" aria-label="Select Login Role">
+            <label class="role-option active" id="roleLabelPrincipal">
+              <input type="radio" name="loginRole" value="principal" checked onchange="updateLoginRole('principal')">
+              <div class="role-box">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>Principal</span>
+                <small>Super Admin</small>
+              </div>
+            </label>
+            <label class="role-option" id="roleLabelTeacher">
+              <input type="radio" name="loginRole" value="teacher" onchange="updateLoginRole('teacher')">
+              <div class="role-box">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <span>Teacher</span>
+                <small>Faculty</small>
+              </div>
+            </label>
+            <label class="role-option" id="roleLabelStudent">
+              <input type="radio" name="loginRole" value="student" onchange="updateLoginRole('student')">
+              <div class="role-box">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Student</span>
+                <small>Learner</small>
+              </div>
+            </label>
+          </div>
+
+          <form id="loginForm" onsubmit="handleLoginSubmit(event)" novalidate>
+            <div class="form-group">
+              <label for="loginEmail">Email Address</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="loginEmail" placeholder="e.g. principal@institution.edu" required autocomplete="username">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password">
+                <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('loginPassword', this)">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-row-actions">
+              <label class="remember-me">
+                <input type="checkbox" id="rememberMe" checked>
+                <span>Remember session</span>
+              </label>
+              <span class="role-note" id="loginRoleHint">Role: <strong>Principal (Super Admin)</strong></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btnLoginSubmit">
+              <span>Sign In to Dashboard</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+
+          <div class="auth-footer-prompt">
+            <span>New faculty or student?</span>
+            <button type="button" class="link-btn" onclick="switchAuthMode('register')">Create an account</button>
+          </div>
+        </div>
+
+        <!-- ================= REGISTER FORM ================= -->
+        <div id="registerSection" class="auth-form-section" style="display: none;">
+          <div class="form-header">
+            <h2>Create Account</h2>
+            <p>Choose your account type below. (Teachers require Principal approval).</p>
+          </div>
+
+          <!-- Register Type Tabs: Teacher vs Student -->
+          <div class="reg-type-switch">
+            <button type="button" class="reg-type-btn active" id="regTypeTeacherBtn" onclick="switchRegisterType('teacher')">
+              <i class="fa-solid fa-chalkboard-user"></i> Teacher / Faculty
+            </button>
+            <button type="button" class="reg-type-btn" id="regTypeStudentBtn" onclick="switchRegisterType('student')">
+              <i class="fa-solid fa-user-graduate"></i> Student Registration
+            </button>
+          </div>
+
+          <!-- Notice for Teacher Approval -->
+          <div id="teacherApprovalAlert" class="approval-info-banner">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <strong>Super Admin Verification Notice:</strong>
+              <p>Teacher accounts remain pending until approved by the Principal Sir. You will be able to log in immediately after approval.</p>
+            </div>
+          </div>
+
+          <!-- Registration Form -->
+          <form id="registerForm" onsubmit="handleRegisterSubmit(event)" novalidate>
+            <!-- Common Name -->
+            <div class="form-group">
+              <label for="regFullName" id="lblRegFullName">Full Name *</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="regFullName" placeholder="e.g. Dr. Anita Sharma" required>
+              </div>
+            </div>
+
+            <!-- Common Email -->
+            <div class="form-group">
+              <label for="regEmail">Institutional Email *</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="regEmail" placeholder="e.g. anita.sharma@institution.edu" required>
+              </div>
+            </div>
+
+            <!-- Role-Specific Fields -->
+            <!-- Teacher specific: Employee ID & Department -->
+            <div id="teacherFields" class="role-specific-container">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="regTeacherId">Faculty / Employee ID *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <input type="text" id="regTeacherId" placeholder="e.g. FAC-CSE-2024">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="regTeacherDept">Department *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <select id="regTeacherDept">
+                      <option value="Computer Science & Engineering">Computer Science & Eng (CSE)</option>
+                      <option value="Information Technology">Information Technology (IT)</option>
+                      <option value="Electronics & Communication">Electronics & Comm (ECE)</option>
+                      <option value="Mechanical Engineering">Mechanical Engineering (ME)</option>
+                      <option value="Civil Engineering">Civil Engineering (CE)</option>
+                      <option value="Applied Sciences">Applied Sciences</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student specific: Roll No, Branch, Semester -->
+            <div id="studentFields" class="role-specific-container" style="display: none;">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="regStudentRoll">University Roll No *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <input type="text" id="regStudentRoll" placeholder="e.g. CSE-2024-042">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="regStudentSemester">Semester / Year *</label>
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <select id="regStudentSemester">
+                      <option value="Semester 1 (1st Year)">Semester 1 (1st Year)</option>
+                      <option value="Semester 2 (1st Year)">Semester 2 (1st Year)</option>
+                      <option value="Semester 3 (2nd Year)">Semester 3 (2nd Year)</option>
+                      <option value="Semester 4 (2nd Year)">Semester 4 (2nd Year)</option>
+                      <option value="Semester 5 (3rd Year)" selected>Semester 5 (3rd Year)</option>
+                      <option value="Semester 6 (3rd Year)">Semester 6 (3rd Year)</option>
+                      <option value="Semester 7 (4th Year)">Semester 7 (4th Year)</option>
+                      <option value="Semester 8 (4th Year)">Semester 8 (4th Year)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="regStudentDept">Branch / Department *</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-building-columns"></i>
+                  <select id="regStudentDept">
+                    <option value="Computer Science & Engineering">Computer Science & Eng (CSE)</option>
+                    <option value="Information Technology">Information Technology (IT)</option>
+                    <option value="Electronics & Communication">Electronics & Comm (ECE)</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering (ME)</option>
+                    <option value="Civil Engineering">Civil Engineering (CE)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Fields -->
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="regPassword">Password *</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-lock"></i>
+                  <input type="password" id="regPassword" placeholder="Min. 6 chars" required autocomplete="new-password">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="regConfirmPassword">Confirm Password *</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-check-double"></i>
+                  <input type="password" id="regConfirmPassword" placeholder="Re-enter password" required autocomplete="new-password">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btnRegisterSubmit">
+              <span id="regSubmitBtnText">Submit Teacher Registration</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+
+          <div class="auth-footer-prompt">
+            <span>Already have an approved account?</span>
+            <button type="button" class="link-btn" onclick="switchAuthMode('login')">Sign in here</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- 2. APPLICATION DASHBOARDS (Post-Login Shell)             -->
+  <!-- ======================================================== -->
+  <div id="appShell" class="app-layout" style="display: none;">
+    <!-- Top Navigation Bar -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button type="button" class="mobile-menu-toggle" id="btnMobileMenu" onclick="toggleSidebar()">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="brand-title">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>TIT <strong>AMS</strong></span>
+          <span class="role-badge" id="navRoleBadge">Principal</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Theme Toggle: Light / Dark Mode -->
+        <button type="button" class="theme-toggle-btn" id="btnThemeToggle" onclick="toggleTheme()" title="Toggle Light / Dark Theme">
+          <i class="fa-solid fa-moon" id="themeToggleIcon"></i>
+        </button>
+
+        <!-- Quick navigation to Holidays & Resources in top bar -->
+        <button type="button" class="nav-chip-btn" onclick="navigateAppSection('holidays')">
+          <i class="fa-solid fa-calendar-day"></i>
+          <span>Holidays</span>
+        </button>
+        <button type="button" class="nav-chip-btn" onclick="navigateAppSection('resources')">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Resources</span>
+        </button>
+
+        <div class="user-profile-menu">
+          <div class="user-avatar" id="navUserAvatar">P</div>
+          <div class="user-meta">
+            <span class="user-name" id="navUserName">Dr. S. K. Mukherjee</span>
+            <small class="user-role-text" id="navUserSubtext">Principal Sir</small>
+          </div>
+          <button type="button" class="btn-logout" onclick="handleLogout()" title="Sign Out">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Collapsible Sidebar -->
+      <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-section-title">MAIN NAVIGATION</div>
+        <nav class="sidebar-nav">
+          <!-- Common / Role-specific links injected dynamically -->
+          <ul id="sidebarLinksList">
+            <!-- Dynamically populated by JS based on role -->
+          </ul>
+        </nav>
+
+        <div class="sidebar-section-title">COMMUNITY & CAMPUS</div>
+        <ul class="sidebar-nav">
+          <li>
+            <a href="javascript:void(0)" class="nav-item" id="sideLinkHolidays" onclick="navigateAppSection('holidays')">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>Academic Holidays</span>
+              <span class="badge-count" id="sidebarHolidayCount">5</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="nav-item" id="sideLinkResources" onclick="navigateAppSection('resources')">
+              <i class="fa-solid fa-book-bookmark"></i>
+              <span>Study Resources</span>
+              <span class="badge-count" id="sidebarResourceCount">3</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div class="system-status-indicator">
+            <span class="status-dot online"></span>
+            <span>TIT Academic System v3.2</span>
+          </div>
+          <button type="button" class="btn-sidebar-logout" onclick="handleLogout()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Dynamic Content Workspace -->
+      <main class="app-main-content" id="appMainContent">
+
+        <!-- ============================================== -->
+        <!-- VIEW A: PRINCIPAL (SUPER ADMIN) DASHBOARD      -->
+        <!-- ============================================== -->
+        <div id="viewPrincipal" class="dashboard-view" style="display: none;">
+          <div class="view-header">
+            <div>
+              <span class="subtitle">Principal Sir's Administration Desk</span>
+              <h2 class="title">Institutional Overview & Approvals</h2>
+            </div>
+            <div class="view-header-actions">
+              <button type="button" class="btn btn-primary" onclick="openCreateSubjectModal()">
+                <i class="fa-solid fa-circle-plus"></i> Create New Subject
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="openAddHolidayModal()">
+                <i class="fa-solid fa-calendar-plus"></i> Add Academic Holiday
+              </button>
+              <button type="button" class="btn btn-outline" onclick="exportInstitutionSummary()">
+                <i class="fa-solid fa-file-export"></i> Institutional Report
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber"><i class="fa-solid fa-user-clock"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Pending Teacher Approvals</span>
+                <h3 class="kpi-value" id="prinKpiPendingTeachers">0</h3>
+                <span class="kpi-hint status-alert" id="prinPendingBadge">Requires Action</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-emerald"><i class="fa-solid fa-chalkboard-user"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Approved Faculty</span>
+                <h3 class="kpi-value" id="prinKpiApprovedTeachers">0</h3>
+                <span class="kpi-hint">Active Teaching Staff</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-indigo"><i class="fa-solid fa-user-graduate"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Enrolled Students</span>
+                <h3 class="kpi-value" id="prinKpiTotalStudents">0</h3>
+                <span class="kpi-hint">All Semesters</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-cyan"><i class="fa-solid fa-book-open"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Active Subjects</span>
+                <h3 class="kpi-value" id="prinKpiTotalSubjects">0</h3>
+                <span class="kpi-hint">Courses Running</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 1: Teacher Registration Approvals (Crucial User Requirement!) -->
+          <div class="card content-card mb-4" id="sectionTeacherApprovals">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-user-shield"></i></div>
+                <div>
+                  <h3>Teacher Registration Approvals</h3>
+                  <p>As Super Admin (Principal Sir), review and approve or reject newly registered teachers.</p>
+                </div>
+              </div>
+              <span class="badge badge-warning" id="pendingTeacherCounter">0 Pending Requests</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="tablePendingTeachers">
+                  <thead>
+                    <tr>
+                      <th>Teacher Name</th>
+                      <th>Faculty ID</th>
+                      <th>Department</th>
+                      <th>Email</th>
+                      <th>Registered On</th>
+                      <th>Status</th>
+                      <th class="text-right">Principal Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyPendingTeachers">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: All Faculty & Subjects Overview -->
+          <div class="grid-2-col">
+            <div class="card content-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <div class="card-icon-tag"><i class="fa-solid fa-users-gear"></i></div>
+                  <div>
+                    <h3>Approved Faculty Roster</h3>
+                    <p>Verified teachers eligible to create subjects and log attendance.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Faculty</th>
+                        <th>Dept</th>
+                        <th>Subjects</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbodyApprovedTeachersList">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card content-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <div class="card-icon-tag"><i class="fa-solid fa-chart-pie"></i></div>
+                  <div>
+                    <h3>Institutional Attendance Highlights</h3>
+                    <p>Recent subject attendance statistics across departments.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="prinAttendanceHighlights" class="attendance-summary-list">
+                  <!-- Injected by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: All Institutional Courses Management (Created by Principal & Teachers) -->
+          <div class="card content-card mt-4" style="margin-top: 24px;" id="sectionPrincipalCourses">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-book-bookmark"></i></div>
+                <div>
+                  <h3>All Institutional Subjects & Courses</h3>
+                  <p>Subjects created by Principal Sir and Faculty. Students can request to join these courses.</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openCreateSubjectModal()">
+                <i class="fa-solid fa-plus"></i> Create Subject
+              </button>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Subject Title</th>
+                      <th>Assigned Faculty / Teacher</th>
+                      <th>Department</th>
+                      <th>Semester</th>
+                      <th>Enrolled Students</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyPrincipalAllSubjects">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW B: TEACHER DASHBOARD                      -->
+        <!-- ============================================== -->
+        <div id="viewTeacher" class="dashboard-view" style="display: none;">
+          <div class="view-header">
+            <div>
+              <span class="subtitle">Faculty Course Portal</span>
+              <h2 class="title" id="teacherGreeting">Subject & Daily Attendance Desk</h2>
+            </div>
+            <div class="view-header-actions">
+              <button type="button" class="btn btn-primary" onclick="openCreateSubjectModal()">
+                <i class="fa-solid fa-circle-plus"></i> Create New Subject
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="openUploadResourceModal()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Share Resource
+              </button>
+            </div>
+          </div>
+
+          <!-- Pending Student Join Requests Banner (If any) -->
+          <div id="teacherJoinRequestsCard" class="card content-card banner-warning-card mb-4" style="display: none;">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag warning-tag"><i class="fa-solid fa-user-plus"></i></div>
+                <div>
+                  <h3 id="pendingJoinRequestTitle">Student Subject Join Requests</h3>
+                  <p>Students waiting for your approval to be enrolled in your subjects.</p>
+                </div>
+              </div>
+              <span class="badge badge-warning" id="pendingJoinCountBadge">0 Requests</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="tableTeacherJoinRequests">
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th>Roll Number</th>
+                      <th>Requested Subject</th>
+                      <th>Semester & Branch</th>
+                      <th>Requested Date</th>
+                      <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyTeacherJoinRequests">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teacher KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon icon-cyan"><i class="fa-solid fa-chalkboard"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">My Created Subjects</span>
+                <h3 class="kpi-value" id="tKpiSubjects">0</h3>
+                <span class="kpi-hint">Assigned Courses</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-indigo"><i class="fa-solid fa-users"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Total Enrolled Students</span>
+                <h3 class="kpi-value" id="tKpiStudents">0</h3>
+                <span class="kpi-hint">Across All Subjects</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-emerald"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Attendance Sessions</span>
+                <h3 class="kpi-value" id="tKpiSessions">0</h3>
+                <span class="kpi-hint">Dates Logged</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber"><i class="fa-solid fa-hourglass-half"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Join Requests Waiting</span>
+                <h3 class="kpi-value" id="tKpiPendingRequests">0</h3>
+                <span class="kpi-hint">Needs Your Approval</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Daily Attendance Marking Hub (Primary Action) -->
+          <div class="card content-card mb-4">
+            <div class="card-header flex-wrap-mobile">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-clipboard-user"></i></div>
+                <div>
+                  <h3>Daily Attendance Marking Sheet</h3>
+                  <p>Select subject and date to mark student attendance with instant Excel and PDF download.</p>
+                </div>
+              </div>
+
+              <!-- Attendance Controls: Subject & Date Picker -->
+              <div class="attendance-filter-bar">
+                <div class="filter-item">
+                  <label for="attSubjectSelect"><i class="fa-solid fa-book"></i> Subject:</label>
+                  <select id="attSubjectSelect" onchange="onTeacherSubjectChange()">
+                    <!-- Options injected -->
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <label for="attDateSelect"><i class="fa-solid fa-calendar"></i> Date:</label>
+                  <input type="date" id="attDateSelect" onchange="onTeacherAttendanceDateChange()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Attendance Action Bar (Bulk mark, Save, Export) -->
+            <div class="card-sub-toolbar">
+              <div class="toolbar-left">
+                <button type="button" class="btn btn-sm btn-outline-success" onclick="markAllAttendance('present')">
+                  <i class="fa-solid fa-check-double"></i> Mark All Present
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="markAllAttendance('absent')">
+                  <i class="fa-solid fa-xmark"></i> Mark All Absent
+                </button>
+                <span class="attendance-counter-pill" id="attLiveSummary">
+                  Present: <b id="countPresent">0</b> | Absent: <b id="countAbsent">0</b>
+                </span>
+              </div>
+              <div class="toolbar-right">
+                <!-- Export to Excel and PDF -->
+                <button type="button" class="btn btn-sm btn-export-excel" onclick="exportAttendanceToExcel()">
+                  <i class="fa-solid fa-file-excel"></i> Export Excel (.CSV)
+                </button>
+                <button type="button" class="btn btn-sm btn-export-pdf" onclick="openPrintAttendancePDF()">
+                  <i class="fa-solid fa-file-pdf"></i> Export / Print PDF
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="saveCurrentDayAttendance()">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Attendance
+                </button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div id="attendanceSheetWrapper">
+                <div class="table-responsive">
+                  <table class="data-table attendance-table" id="tableAttendanceMarking">
+                    <thead>
+                      <tr>
+                        <th width="80">Roll No</th>
+                        <th>Student Name</th>
+                        <th>Branch / Semester</th>
+                        <th>Cumulative %</th>
+                        <th class="text-center" width="280">Attendance Status for Selected Day</th>
+                        <th>Remarks / Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbodyAttendanceStudents">
+                      <!-- Enrolled students rendered dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <div id="noStudentsInSubjectNotice" class="empty-state-box" style="display: none;">
+                  <i class="fa-solid fa-user-graduate"></i>
+                  <h4>No Approved Students in this Subject Yet</h4>
+                  <p>Students must register and send a join request for this subject. Once you accept them, they will appear here for daily marking.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: My Subjects List -->
+          <div class="card content-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-layer-group"></i></div>
+                <div>
+                  <h3>My Managed Subjects</h3>
+                  <p>View enrollment counts, join code, and subject analytics.</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="openCreateSubjectModal()">
+                <i class="fa-solid fa-plus"></i> New Subject
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="subjects-grid" id="teacherSubjectsCardsGrid">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW C: STUDENT DASHBOARD                      -->
+        <!-- ============================================== -->
+        <div id="viewStudent" class="dashboard-view" style="display: none;">
+          <div class="view-header">
+            <div>
+              <span class="subtitle">Student Academic Portal</span>
+              <h2 class="title" id="studentGreeting">Welcome, Student</h2>
+            </div>
+            <div class="view-header-actions">
+              <button type="button" class="btn btn-primary" onclick="openBrowseSubjectsModal()">
+                <i class="fa-solid fa-paper-plane"></i> Send Join Request
+              </button>
+              <button type="button" class="btn btn-outline" onclick="exportStudentAttendanceReport()">
+                <i class="fa-solid fa-file-arrow-down"></i> My Attendance Report
+              </button>
+            </div>
+          </div>
+
+          <!-- Student KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon icon-indigo"><i class="fa-solid fa-chart-pie"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Overall Attendance</span>
+                <h3 class="kpi-value" id="sKpiOverallPercent">0%</h3>
+                <span class="kpi-hint" id="sKpiStatusEligibility">Eligibility Status</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-emerald"><i class="fa-solid fa-book"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Enrolled Subjects</span>
+                <h3 class="kpi-value" id="sKpiEnrolledSubjects">0</h3>
+                <span class="kpi-hint">Approved by Teachers</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-cyan"><i class="fa-solid fa-clock-rotate-left"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Classes Attended</span>
+                <h3 class="kpi-value" id="sKpiClassesAttended">0</h3>
+                <span class="kpi-hint" id="sKpiClassesTotal">Out of 0 conducted</span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber"><i class="fa-solid fa-hourglass-start"></i></div>
+              <div class="kpi-content">
+                <span class="kpi-label">Pending Join Requests</span>
+                <h3 class="kpi-value" id="sKpiPendingRequests">0</h3>
+                <span class="kpi-hint">Awaiting Teacher Approval</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 1: Enrolled Subjects & Real-time Attendance Stats -->
+          <div class="card content-card mb-4">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div>
+                  <h3>My Enrolled Subjects & Attendance Breakdown</h3>
+                  <p>Subject-wise attendance percentage, classes attended, and criteria eligibility (75% standard).</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="openBrowseSubjectsModal()">
+                <i class="fa-solid fa-plus"></i> Join More Subjects
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Subject Code</th>
+                      <th>Subject Name</th>
+                      <th>Faculty / Teacher</th>
+                      <th>Classes Attended / Total</th>
+                      <th>Attendance %</th>
+                      <th>Criteria Status</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyStudentEnrolledSubjects">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Join Request History -->
+          <div class="card content-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-paper-plane"></i></div>
+                <div>
+                  <h3>My Subject Join Requests</h3>
+                  <p>Track status of join requests you sent to faculty members.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Subject Name</th>
+                      <th>Subject Code</th>
+                      <th>Teacher Name</th>
+                      <th>Requested Date</th>
+                      <th>Status</th>
+                      <th>Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyStudentRequestsHistory">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW D: ACADEMIC HOLIDAYS (Separate Section)    -->
+        <!-- ============================================== -->
+        <div id="viewHolidays" class="dashboard-view" style="display: none;">
+          <div class="view-header">
+            <div>
+              <span class="subtitle">Campus Calendar</span>
+              <h2 class="title">Official Academic Holidays & Schedule</h2>
+            </div>
+            <div class="view-header-actions">
+              <button type="button" class="btn btn-primary" id="btnAdminAddHoliday" onclick="openAddHolidayModal()" style="display: none;">
+                <i class="fa-solid fa-plus"></i> Add New Holiday
+              </button>
+              <button type="button" class="btn btn-outline" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Print Calendar
+              </button>
+            </div>
+          </div>
+
+          <!-- Upcoming Holiday Countdown Banner -->
+          <div class="next-holiday-banner" id="nextHolidayBanner">
+            <div class="holiday-banner-icon"><i class="fa-solid fa-umbrella-beach"></i></div>
+            <div class="holiday-banner-info">
+              <span class="banner-sub">NEXT UPCOMING INSTITUTIONAL HOLIDAY</span>
+              <h3 id="nextHolidayTitle">Gandhi Jayanti</h3>
+              <p id="nextHolidayDate">October 2, 2024 (National Holiday)</p>
+            </div>
+            <div class="countdown-badge" id="holidayCountdown">
+              <span class="days-num" id="holidayDaysLeft">0</span>
+              <small>Days Away</small>
+            </div>
+          </div>
+
+          <div class="card content-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-calendar-days"></i></div>
+                <div>
+                  <h3>Institutional Holiday Schedule</h3>
+                  <p>All official holidays, festivals, and semester examination recesses.</p>
+                </div>
+              </div>
+              <div class="holiday-filter-group">
+                <button type="button" class="filter-chip active" onclick="filterHolidays('all', this)">All</button>
+                <button type="button" class="filter-chip" onclick="filterHolidays('National', this)">National</button>
+                <button type="button" class="filter-chip" onclick="filterHolidays('Festival', this)">Festivals</button>
+                <button type="button" class="filter-chip" onclick="filterHolidays('Academic', this)">Academic Recess</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="holidays-grid" id="holidaysListGrid">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW E: STUDY RESOURCES (Separate Section)     -->
+        <!-- ============================================== -->
+        <div id="viewResources" class="dashboard-view" style="display: none;">
+          <div class="view-header">
+            <div>
+              <span class="subtitle">Academic Repository</span>
+              <h2 class="title">Subject Study Resources & Notes</h2>
+            </div>
+            <div class="view-header-actions">
+              <button type="button" class="btn btn-primary" id="btnUploadResourceTop" onclick="openUploadResourceModal()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload Resource
+              </button>
+            </div>
+          </div>
+
+          <div class="card content-card">
+            <div class="card-header flex-wrap-mobile">
+              <div class="card-title-group">
+                <div class="card-icon-tag"><i class="fa-solid fa-folder-tree"></i></div>
+                <div>
+                  <h3>Resource Repository</h3>
+                  <p>Lecture slides, syllabus, reference materials, and question banks shared by faculty.</p>
+                </div>
+              </div>
+
+              <!-- Filter Search -->
+              <div class="resource-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="resourceSearchInput" placeholder="Search notes, topics, subjects..." oninput="filterResourcesList()">
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="resources-grid" id="resourcesCardsGrid">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- 3. INTERACTIVE MODALS                                    -->
+  <!-- ======================================================== -->
+
+  <!-- Modal: Create Subject (For Teachers) -->
+  <div id="modalCreateSubject" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-chalkboard"></i>
+          <h3>Create New Subject</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('modalCreateSubject')">&times;</button>
+      </div>
+      <form onsubmit="handleCreateSubjectSubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="newSubjectName">Subject Title *</label>
+            <input type="text" id="newSubjectName" placeholder="e.g. Database Management Systems" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="newSubjectCode">Subject Code *</label>
+              <input type="text" id="newSubjectCode" placeholder="e.g. CS-501" required>
+            </div>
+            <div class="form-group">
+              <label for="newSubjectSemester">Semester *</label>
+              <select id="newSubjectSemester" required>
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5" selected>Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newSubjectDept">Department *</label>
+            <select id="newSubjectDept" required>
+              <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Electronics & Communication">Electronics & Communication</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+            </select>
+          </div>
+          <div class="form-group" id="assignFacultyGroup" style="display: none;">
+            <label for="newSubjectTeacherSelect"><i class="fa-solid fa-chalkboard-user"></i> Assigned Faculty Member *</label>
+            <select id="newSubjectTeacherSelect">
+              <!-- Dynamically populated with approved teachers + Principal Sir option -->
+            </select>
+            <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; display: block;">
+              As Principal Sir, you can assign this course to an approved faculty teacher or coordinate it yourself.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="newSubjectDesc">Subject Description & Syllabus Summary</label>
+            <textarea id="newSubjectDesc" rows="3" placeholder="Brief outline of syllabus or lab prerequisites..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalCreateSubject')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Browse & Request to Join Subject (For Students) -->
+  <div id="modalBrowseSubjects" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <h3>Browse & Join Faculty Subjects</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('modalBrowseSubjects')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">
+          Click <strong>"Send Join Request"</strong> on any subject created by your faculty. The respective teacher will review and accept your enrollment.
+        </p>
+        <div class="browse-filter-bar">
+          <input type="text" id="browseSearchInput" placeholder="Search by subject name, code, or teacher..." oninput="renderBrowseSubjectsList()">
+        </div>
+        <div class="browse-subjects-list" id="browseSubjectsContainer">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalBrowseSubjects')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Upload Resource -->
+  <div id="modalUploadResource" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <h3>Share Study Resource</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('modalUploadResource')">&times;</button>
+      </div>
+      <form onsubmit="handleUploadResourceSubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="resTitle">Resource Title *</label>
+            <input type="text" id="resTitle" placeholder="e.g. Unit 1: Relational Algebra & SQL Notes" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="resSubjectSelect">Select Subject *</label>
+              <select id="resSubjectSelect" required>
+                <!-- Injected dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="resType">Resource Type *</label>
+              <select id="resType" required>
+                <option value="Lecture Notes">Lecture Notes (PDF)</option>
+                <option value="Presentation">Presentation / PPT</option>
+                <option value="Assignment">Assignment Sheet</option>
+                <option value="Question Paper">Previous Year Questions</option>
+                <option value="Reference Link">Video / Web Reference</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="resLink">Document URL / Drive Link / Reference URL *</label>
+            <input type="url" id="resLink" placeholder="https://drive.google.com/... or https://..." required>
+          </div>
+          <div class="form-group">
+            <label for="resNotes">Description / Instructions</label>
+            <textarea id="resNotes" rows="2" placeholder="Optional instructions for students..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalUploadResource')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Resource</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Academic Holiday (Principal) -->
+  <div id="modalAddHoliday" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-calendar-plus"></i>
+          <h3>Add Academic Holiday</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('modalAddHoliday')">&times;</button>
+      </div>
+      <form onsubmit="handleAddHolidaySubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="holTitle">Holiday / Event Title *</label>
+            <input type="text" id="holTitle" placeholder="e.g. National Science Day" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="holDate">Date *</label>
+              <input type="date" id="holDate" required>
+            </div>
+            <div class="form-group">
+              <label for="holType">Category *</label>
+              <select id="holType" required>
+                <option value="National">National Holiday</option>
+                <option value="Festival">Festival Break</option>
+                <option value="Academic">Academic Recess / Exam</option>
+                <option value="Institutional">Institutional Event</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="holDesc">Description</label>
+            <input type="text" id="holDesc" placeholder="e.g. Institute will remain closed.">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalAddHoliday')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Holiday</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Attendance History Details -->
+  <div id="modalAttendanceDetails" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-clipboard-list"></i>
+          <h3 id="attDetailSubjectTitle">Subject Attendance Record</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('modalAttendanceDetails')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="att-detail-summary-bar" id="attDetailSummaryBar">
+          <!-- Injected dynamically -->
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Conducted By</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyAttSubjectHistory">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalAttendanceDetails')">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- 4. PRINTABLE OFFICIAL PDF REPORT TEMPLATE               -->
+  <!-- ======================================================== -->
+  <div id="printReportContainer" class="printable-report" style="display: none;">
+    <div class="print-header">
+      <div class="print-brand">
+        <h2>TIT GROUP OF INSTITUTIONS</h2>
+        <h4>OFFICIAL DEPARTMENT OF ACADEMIC AFFAIRS</h4>
+        <p>Comprehensive Attendance Register & Performance Summary</p>
+      </div>
+      <div class="print-meta-grid">
+        <div><strong>Subject:</strong> <span id="prtSubjectName">-</span></div>
+        <div><strong>Subject Code:</strong> <span id="prtSubjectCode">-</span></div>
+        <div><strong>Faculty Member:</strong> <span id="prtFacultyName">-</span></div>
+        <div><strong>Generated On:</strong> <span id="prtGeneratedDate">-</span></div>
+      </div>
+    </div>
+
+    <table class="print-table" id="prtTable">
+      <thead>
+        <tr>
+          <th>Sl.</th>
+          <th>Roll No</th>
+          <th>Student Name</th>
+          <th>Total Classes</th>
+          <th>Attended</th>
+          <th>Attendance %</th>
+          <th>Eligibility (>=75%)</th>
+        </tr>
+      </thead>
+      <tbody id="prtTableBody">
+        <!-- Injected -->
+      </tbody>
+    </table>
+
+    <div class="print-signatures">
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <span>Subject Faculty Signature</span>
+      </div>
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <span>Head of Department</span>
+      </div>
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <span>Principal Sir / Super Admin</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Web SDK Compat (CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+  
+  <!-- Firebase Configuration File -->
+  <script src="firebase-config.js"></script>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
